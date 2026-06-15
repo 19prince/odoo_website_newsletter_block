@@ -1,0 +1,15 @@
+{
+    'name': 'Website Newsletter Block',
+    'version': '18.0.1.0.0',
+    'category': 'Website/Website',
+    'summary': 'Newsletter subscription block for the website builder',
+    'depends': ['website_mass_mailing'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/snippets/snippets.xml',
+    ],
+    'assets': {},
+    'installable': True,
+    'auto_install': False,
+    'license': 'LGPL-3',
+}
