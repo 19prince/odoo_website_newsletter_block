@@ -1,4 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<!-- Snippet templates and registration added in Phase 2 -->
+
+<!-- ============================================================
+     1. Snippet template body
+     ============================================================ -->
+<template id="s_newsletter_block" name="Newsletter Block">
+    <section class="s_newsletter_block o_cc o_cc2 pt64 pb64"
+             data-name="Newsletter Block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <!-- Headline — EDIT-01: editable in builder by default (no extra attr needed) -->
+                    <h2>Subscribe to our newsletter</h2>
+                    <!-- Body text — EDIT-02 -->
+                    <p class="text-muted">
+                        Get all the latest news, articles, and resources,
+                        delivered directly to your inbox every week.
+                    </p>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <!-- s_newsletter_list: editor option data-selector targets this (LIST-02)
+                         js_subscribe: upstream publicWidget auto-binds to this class (FORM-01, FORM-04)
+                         data-list-id="0": _getListId() fallback reads this.$el.data('list-id') (SNIP-03) -->
+                    <div class="s_newsletter_list js_subscribe" data-list-id="0">
+                        <!-- Success state — hidden until submit succeeds (FORM-04)
+                             EDIT-04: editable via "Display Thanks Message" toggle in options panel -->
+                        <div class="js_subscribed_wrap d-none">
+                            <p class="h4-fs text-center text-success">
+                                <i class="fa fa-check-circle-o" role="img"/>
+                                Thanks for subscribing!
+                            </p>
+                        </div>
+                        <!-- Form state — visible by default (FORM-01) -->
+                        <div class="js_subscribe_wrap">
+                            <div class="input-group mb-2">
+                                <!-- Name input: present for Phase 2 UI; NOT wired to controller
+                                     (address_name wiring is Phase 3 / FORM-02) -->
+                                <input type="text"
+                                       name="name"
+                                       class="form-control"
+                                       placeholder="Your name"/>
+                                <!-- Email input: js_subscribe_value is the selector the widget reads -->
+                                <input type="email"
+                                       name="email"
+                                       class="js_subscribe_value form-control"
+                                       placeholder="you@example.com"/>
+                                <!-- Submit button: js_subscribe_btn is the click target -->
+                                <a role="button" href="#"
+                                   class="btn btn-primary js_subscribe_btn o_submit">
+                                    Subscribe
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Sub-caption — EDIT-03 -->
+                        <p class="small text-muted mt-1">
+                            Join 1,000+ readers. Unsubscribe anytime.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<!-- ============================================================
+     2. Sidebar registration (SNIP-01, SNIP-02)
+     position="after" — upstream website_mass_mailing already consumed the hook
+     with position="replace"; we insert alongside it, not replace again.
+     t-forbid-sanitize="form" — prevents HTML sanitizer from stripping
+     input and button elements on page save (SNIP-02).
+     ============================================================ -->
+<template id="snippets" inherit_id="website.snippets">
+    <xpath expr="//t[@id='mass_mailing_newsletter_block_hook']" position="after">
+        <t t-snippet="odoo_website_newsletter_block.s_newsletter_block"
+           string="Newsletter Block"
+           t-forbid-sanitize="form"
+           group="contact_and_forms">
+            <keywords>newsletter, subscribe, signup, email, form, updates</keywords>
+        </t>
+    </xpath>
+</template>
+
+<!-- ============================================================
+     3. Editor options — mailing list picker (LIST-02)
+     Reuses upstream options.registry.mailing_list_subscribe via data-js.
+     No custom editor JS needed.
+     data-selector: panel activates when .s_newsletter_list is selected
+     data-target: editor writes data-list-id to this element on change
+     ============================================================ -->
+<template id="newsletter_block_options" name="Newsletter Block Options"
+          inherit_id="website.snippet_options">
+    <xpath expr="//div[1]" position="before">
+        <div data-js="mailing_list_subscribe"
+             data-selector=".s_newsletter_list"
+             data-target=".s_newsletter_list">
+            <we-select string="Newsletter"
+                       data-attribute-name="listId">
+            </we-select>
+        </div>
+    </xpath>
+</template>
+
 </odoo>
