@@ -7,8 +7,8 @@
 
 ### Module
 
-- [ ] **MODL-01**: Module installs on Odoo 18 without errors or warnings
-- [ ] **MODL-02**: Module declares `website_mass_mailing` as its sole dependency in `__manifest__.py`
+- [x] **MODL-01**: Module installs on Odoo 18 without errors or warnings
+- [x] **MODL-02**: Module declares `website_mass_mailing` as its sole dependency in `__manifest__.py`
 
 ### Snippet
 
@@ -39,7 +39,7 @@
 
 ### Compatibility
 
-- [ ] **COMPAT-01**: Module uses no version-specific JS APIs — no direct `publicWidget` patching, no `useService` Owl imports in frontend code
+- [x] **COMPAT-01**: Module uses no version-specific JS APIs — no direct `publicWidget` patching, no `useService` Owl imports in frontend code
 - [ ] **COMPAT-02**: Module is verified working on Odoo 18 local dev environment
 
 ## v2 Requirements
@@ -73,8 +73,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MODL-01 | Phase 1 | Pending |
-| MODL-02 | Phase 1 | Pending |
+| MODL-01 | Phase 1 | Complete |
+| MODL-02 | Phase 1 | Complete |
 | SNIP-01 | Phase 2 | Pending |
 | SNIP-02 | Phase 2 | Pending |
 | SNIP-03 | Phase 2 | Pending |
@@ -90,7 +90,7 @@
 | FORM-03 | Phase 3 | Pending |
 | FORM-04 | Phase 2 | Pending |
 | FORM-05 | Phase 3 | Pending |
-| COMPAT-01 | Phase 1 | Pending |
+| COMPAT-01 | Phase 1 | Complete |
 | COMPAT-02 | Phase 3 | Pending |
 
 **Coverage:**
@@ -100,4 +100,4 @@
 
 ---
 *Requirements defined: 2026-06-15*
-*Last updated: 2026-06-15 after roadmap creation (ROADMAP.md — 3 phases)*
+*Last updated: 2026-06-15 after Phase 1 Plan 01 completion (MODL-01, MODL-02, COMPAT-01 marked complete)*
