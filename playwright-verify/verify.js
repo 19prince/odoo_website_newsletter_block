@@ -87,7 +87,18 @@ async function getContentFrame(page) {
   const page = await ctx.newPage();
 
   const consoleErrors = [];
-  page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
+  page.on('console', msg => {
+    if (msg.type() === 'error') {
+      const loc = msg.location()?.url || '';
+      // Filter out known third-party tracking pixels that fail in headless/CI environments
+      const isThirdParty = loc.includes('vector.co') || loc.includes('cdn.') || loc.includes('pixel.js');
+      const text = msg.text();
+      const isKnownNoise = text.includes('Load failed, error in settings') ||
+                           text.includes('No visitor ID available') ||
+                           text.includes('Failed to fetch') && text.includes('pixel');
+      if (!isThirdParty && !isKnownNoise) consoleErrors.push(text);
+    }
+  });
   page.on('pageerror', err => consoleErrors.push(`PageError: ${err.message}`));
 
   try {
@@ -349,7 +360,7 @@ async function getContentFrame(page) {
                 model: 'mailing.contact',
                 method: 'search_read',
                 args: [[['email', '=', args.email]]],
-                kwargs: { fields: ['name', 'email', 'subscription_list_ids'], limit: 5 }
+                kwargs: { fields: ['name', 'email', 'list_ids'], limit: 5 }
               }
             })
           });
@@ -364,8 +375,8 @@ async function getContentFrame(page) {
         const c = contacts[0];
         log(c.name === testName ? '✅' : '❌', 'FORM-02',
           `mailing.contact.name = "${c.name}" (expected "${testName}")`);
-        log((c.subscription_list_ids?.length || 0) > 0 ? '✅' : '❌', 'FORM-03',
-          `contact in ${c.subscription_list_ids?.length || 0} mailing list(s)`);
+        log((c.list_ids?.length || 0) > 0 ? '✅' : '❌', 'FORM-03',
+          `contact in ${c.list_ids?.length || 0} mailing list(s)`);
       } else {
         log('❌', 'FORM-02', `No mailing.contact found for ${testEmail}: ${JSON.stringify(contacts)}`);
         log('❌', 'FORM-03', 'Skipped — no contact found');

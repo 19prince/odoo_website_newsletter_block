@@ -26,7 +26,7 @@
 
 ### Mailing List
 
-- [ ] **LIST-01**: Editor can select which `mailing.list` the block subscribes to via the snippet options panel (inheriting `data-js="mailing_list_subscribe"` from `website_mass_mailing`)
+- [x] **LIST-01**: Editor can select which `mailing.list` the block subscribes to via the snippet options panel (inheriting `data-js="mailing_list_subscribe"` from `website_mass_mailing`)
 - [ ] **LIST-02**: `data-list-id` is written to the `.s_newsletter_list` inner element (not the outer section) so the editor option wiring resolves correctly
 
 ### Form & Submission
@@ -83,7 +83,7 @@
 | EDIT-03 | Phase 2 | Pending |
 | EDIT-04 | Phase 2 | Pending |
 | EDIT-05 | Phase 2 | Pending |
-| LIST-01 | Phase 3 | Pending |
+| LIST-01 | Phase 3 | Complete |
 | LIST-02 | Phase 2 | Pending |
 | FORM-01 | Phase 2 | Pending |
 | FORM-02 | Phase 3 | Pending |
