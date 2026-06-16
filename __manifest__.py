@@ -8,7 +8,11 @@
         'security/ir.model.access.csv',
         'views/snippets/snippets.xml',
     ],
-    'assets': {},
+    'assets': {
+        'web.assets_frontend': [
+            'odoo_website_newsletter_block/static/src/js/newsletter_block.js',
+        ],
+    },
     'installable': True,
     'auto_install': False,
     'license': 'LGPL-3',
