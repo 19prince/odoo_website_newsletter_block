@@ -12,7 +12,11 @@ class NewsletterBlockController(MassMailController):
 
     @route()
     def subscribe(self, list_id, value, subscription_type, **post):
-        if int(list_id) == 0:
+        try:
+            list_id = int(list_id)
+        except (ValueError, TypeError):
+            return {'toast_type': 'danger', 'toast_content': _("Invalid request.")}
+        if list_id == 0:
             first_list = request.env['mailing.list'].sudo().search(
                 [('is_public', '=', True)], limit=1)
             if not first_list:
@@ -29,7 +33,8 @@ class NewsletterBlockController(MassMailController):
                 'toast_content': _("Suspicious activity detected by Google reCaptcha."),
             }
         fname = self._get_fname(subscription_type)
-        address_name = post.get('address_name') or None
+        raw_name = post.get('address_name') or ''
+        address_name = raw_name.strip()[:255] or None
         self.subscribe_to_newsletter(subscription_type, value, list_id, fname, address_name=address_name)
         return {
             'toast_type': 'success',
@@ -39,7 +44,11 @@ class NewsletterBlockController(MassMailController):
     def subscribe_to_newsletter(self, subscription_type, value, list_id, fname, address_name=None, **kwargs):
         """Belt-and-suspenders: guard list_id=0 and capture address_name even if subscribe()
         override is bypassed (e.g. parent route wins but self is NewsletterBlockController)."""
-        if int(list_id) == 0:
+        try:
+            list_id = int(list_id)
+        except (ValueError, TypeError):
+            return
+        if list_id == 0:
             first_list = request.env['mailing.list'].sudo().search(
                 [('is_public', '=', True)], limit=1)
             if not first_list:
@@ -47,7 +56,8 @@ class NewsletterBlockController(MassMailController):
             list_id = first_list.id
         super().subscribe_to_newsletter(subscription_type, value, list_id, fname)
         # FORM-02: set name on mailing.contact after creation; fall back to raw request param
-        name = address_name or request.params.get('address_name') or None
+        raw = address_name or request.params.get('address_name') or ''
+        name = raw.strip()[:255] or None
         if name and subscription_type == 'email':
             contact = request.env['mailing.contact'].sudo().search(
                 [('email', '=', value)], limit=1)
