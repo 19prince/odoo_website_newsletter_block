@@ -1,4 +1,5 @@
 from odoo import _
+from odoo.exceptions import ValidationError
 from odoo.http import route, request
 from odoo.addons.website_mass_mailing.controllers.main import MassMailController
 
@@ -26,11 +27,19 @@ class NewsletterBlockController(MassMailController):
                 }
             list_id = first_list.id
         # _verify_request_recaptcha_token pops recaptcha_token_response from request.params as a
-        # side-effect — don't call super().subscribe() or it runs the token check a second time
-        if not request.env['ir.http']._verify_request_recaptcha_token('website_mass_mailing_subscribe'):
+        # side-effect — don't call super().subscribe() or it runs the token check a second time.
+        # In Odoo 18 with Cloudflare Turnstile configured, a failed challenge raises ValidationError
+        # instead of returning False — catch it and convert to a toast.
+        try:
+            if not request.env['ir.http']._verify_request_recaptcha_token('website_mass_mailing_subscribe'):
+                return {
+                    'toast_type': 'danger',
+                    'toast_content': _("Verification failed. Please try again."),
+                }
+        except ValidationError as e:
             return {
                 'toast_type': 'danger',
-                'toast_content': _("Suspicious activity detected by Google reCaptcha."),
+                'toast_content': str(e),
             }
         fname = self._get_fname(subscription_type)
         raw_name = post.get('address_name') or ''

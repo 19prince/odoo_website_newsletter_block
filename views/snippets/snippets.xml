@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="col-12 col-md-auto order-md-3">
                                         <a role="button" href="#"
-                                           class="btn btn-dark rounded-pill px-4 w-100 js_subscribe_btn o_submit">
+                                           class="btn btn-primary rounded-pill px-4 w-100 js_subscribe_btn o_submit">
                                             Join my list
                                         </a>
                                     </div>
