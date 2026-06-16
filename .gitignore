@@ -1,0 +1,9 @@
+.planning/
+.tmp/
+playwright-verify/node_modules/
+playwright-verify/package-lock.json
+playwright-verify/install-module.js
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
