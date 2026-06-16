@@ -2,6 +2,9 @@
 
 An Odoo 18 website builder snippet that lets editors drop a styled newsletter subscription block onto any page or blog post. Subscribers land in Odoo's existing Email Marketing stack (`mailing.list` / `mailing.contact`).
 
+<img width="1049" height="443" alt="image" src="https://github.com/user-attachments/assets/8d708d48-0224-4fd3-8aeb-82856bcab420" />
+
+
 ## Features
 
 - Drag-and-drop snippet from the **Contact & Forms** group in the website builder
