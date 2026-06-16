@@ -103,5 +103,21 @@
     </xpath>
 </template>
 
+<!-- ============================================================
+     3. Snippet options — mailing list picker for LIST-01
+     Upstream newsletter_subscribe_options_common excludes
+     .s_newsletter_block .s_newsletter_list, so we register
+     mailing_list_subscribe directly for our .js_subscribe div.
+     data-attribute-name="listId" is camelCase — the options engine
+     translates it to data-list-id on write (case-sensitive, must match exactly).
+     ============================================================ -->
+<template id="newsletter_block_options" inherit_id="website.snippet_options">
+    <xpath expr="//div[1]" position="before">
+        <div data-js="mailing_list_subscribe"
+             data-selector=".s_newsletter_block .js_subscribe">
+            <we-select string="Newsletter" data-attribute-name="listId" data-dependencies="!form_opt"/>
+        </div>
+    </xpath>
+</template>
 
 </odoo>
