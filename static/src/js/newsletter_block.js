@@ -8,6 +8,18 @@ import { rpc } from "@web/core/network/rpc";
 import { _t } from "@web/core/l10n/translation";
 
 publicWidget.registry.subscribe.include({
+    // Upstream inserts the Turnstile widget *after* .js_subscribe, which places it
+    // outside our .bg-light card. Move it inside so it sits within the card.
+    _updateSubscribeControlsStatus(isSubscriber) {
+        this._super(...arguments);
+        if (!isSubscriber && this._turnstile) {
+            const sibling = this.el.nextElementSibling;
+            if (sibling?.classList.contains('s_turnstile')) {
+                this.el.appendChild(sibling);
+            }
+        }
+    },
+
     _onSubscribeClick: async function () {
         const nameInputEl = this.el.querySelector('input[name="name"]');
         const addressName = nameInputEl ? nameInputEl.value.trim() : '';

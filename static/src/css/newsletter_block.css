@@ -1,0 +1,6 @@
+.s_newsletter_block .s_turnstile {
+    transform: scale(0.78);
+    transform-origin: right top;
+    margin-top: 0.5rem;
+    margin-bottom: -14px; /* compensate for scale so it doesn't leave a gap */
+}
