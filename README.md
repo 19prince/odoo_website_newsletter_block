@@ -115,3 +115,7 @@ After editing any file in this module:
 ## License
 
 LGPL-3 — same as Odoo community modules.
+
+---
+
+Built by [19 Prince](https://www.19prince.com) — we help companies on Odoo drive demand: content strategy, website builds, and email programs that turn your Odoo instance into a growth engine.
