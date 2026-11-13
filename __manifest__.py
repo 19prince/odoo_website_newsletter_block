@@ -16,5 +16,7 @@
     },
     'installable': True,
     'auto_install': False,
+    'author': '19 Prince',
+    'website': 'https://19prince.com',
     'license': 'LGPL-3',
 }
